@@ -350,3 +350,65 @@ em.serif{font-family:inherit;font-style:normal;font-weight:inherit;color:inherit
 @media (max-width:640px){.ann-more{display:none}}
 
 .news .btn{white-space:nowrap;padding:0 1.4rem;flex:none}
+
+/* ===== BALANCE: clean retail base + Billy storytelling ===== */
+/* italic accents return, in brick, for warmth */
+em.serif{font-family:"Instrument Serif",Georgia,serif!important;font-style:italic;font-weight:400;font-size:1.08em;letter-spacing:-.01em;color:var(--brick)}
+.hscroll em.serif,.bb-panel em.serif,.cta-band.dark em.serif{color:#e7a8a6}
+.bc-hero h1{font-size:clamp(3.6rem,9vw,8.5rem)!important}
+.bc-hero .lead{margin-top:1.5rem}
+/* chapter labels read like a book */
+.kicker{color:var(--brick)}
+.hscroll .kicker{color:#e7a8a6}
+/* chapter 01 image */
+.story-img{aspect-ratio:4/5;max-height:720px}
+.story-img img{width:100%;height:100%;object-fit:cover}
+/* the making: dark chapter for contrast */
+.hscroll{background:var(--ink);color:#fff}
+.hscroll-head h2{color:#fff}
+.step p:not(.cap){font-size:.98rem;color:rgba(255,255,255,.72);margin:0}
+.step .cap{margin:0}
+/* statement: big, warm, centred */
+.statement p{font-size:clamp(2.2rem,5.4vw,5rem)!important;max-width:15em}
+/* sun ring behind Billy on white */
+.feature .billy-art{margin-inline:auto}
+
+/* mini banner under the navigation (Krishi Cress style) */
+.minibar{display:flex;justify-content:center;align-items:center;gap:1.1rem;flex-wrap:nowrap;background:var(--brick);color:#f4ead8;padding:.62rem var(--gut);font-size:.9rem;font-weight:500;letter-spacing:.02em;white-space:nowrap;overflow:hidden}
+.minibar i{width:0;height:1.1em;border-left:2px dotted rgba(244,234,216,.75)}
+@media (max-width:700px){.minibar{font-size:.8rem;gap:.8rem}.minibar .mb-3,.minibar .mb-3 + i,.minibar i:nth-of-type(2){display:none}}
+
+/* winter collection row with captions */
+.winter-row{gap:var(--gap)}
+.w-item{display:block;text-decoration:none}
+.w-item .reveal-img{aspect-ratio:3/4;overflow:hidden;background:var(--off)}
+.w-item img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform 1.4s var(--ease)}
+.w-item:hover img{transform:scale(1.03)}
+.w-cap{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:.9rem 0 0;font-size:.98rem}
+.w-cap b{font-weight:600}
+.w-cap span{font-weight:600;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;color:var(--brick)}
+.bc-hero-row.winter-row a{aspect-ratio:auto;background:none;overflow:visible}
+
+/* the making: slim icon timeline */
+.itl{list-style:none;margin:0;padding:0;display:grid;gap:2rem;position:relative}
+@media (min-width:900px){.itl{grid-template-columns:repeat(5,1fr);gap:1.5rem}.itl::before{content:"";position:absolute;left:10%;right:10%;top:34px;height:1px;background:var(--line)}}
+.itl li{position:relative;text-align:center;display:grid;justify-items:center;gap:.4rem}
+@media (max-width:899px){.itl li{grid-template-columns:auto 1fr;justify-items:start;text-align:left;column-gap:1.25rem}.itl .tl-ico{grid-row:1/4}}
+.tl-ico{width:68px;height:68px;border-radius:50%;background:#fff;border:1.5px solid var(--ink);display:grid;place-items:center;position:relative;z-index:1;transition:background .3s,color .3s,transform .4s var(--ease)}
+.itl li:hover .tl-ico{background:var(--brick);border-color:var(--brick);color:#fff;transform:translateY(-4px)}
+.tl-n{font-size:.75rem;font-weight:700;letter-spacing:.14em;color:var(--brick);margin-top:.6rem}
+@media (max-width:899px){.tl-n{margin-top:0}}
+.itl h3{font-size:1.35rem!important;margin:0}
+.itl p{margin:0;color:var(--muted);font-size:.95rem;max-width:16em}
+
+/* shop by use */
+.uses{display:grid;gap:var(--gap);grid-template-columns:repeat(2,1fr)}
+@media (min-width:1000px){.uses{grid-template-columns:repeat(4,1fr)}}
+.use{display:block;text-decoration:none}
+.use-img{aspect-ratio:4/5;overflow:hidden;background:#fff;margin-bottom:1rem}
+.use-img img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform 1.2s var(--ease)}
+.use:hover .use-img img{transform:scale(1.04)}
+.use h3{font-size:clamp(1.5rem,2.2vw,2rem)!important;margin:0 0 .35rem}
+.use p{margin:0 0 .75rem;color:var(--muted);font-size:.95rem}
+.use-go{font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-bottom:1.5px solid currentColor;padding-bottom:2px}
+.use:hover .use-go{color:var(--brick)}

@@ -25,7 +25,6 @@ const main = $('main');
 document.body.insertAdjacentHTML('afterbegin', `
 <div class="progress" id="progress" aria-hidden="true"></div>
 <a class="skip" href="#main">Skip to main content</a>
-<a class="announce" href="shop.html?set=cat%3Ahoodies"><span><b>Just launched:</b> the Winter Drop<span class="ann-more">. Heavyweight fleece, made for the cold.</span></span> <span class="announce-plus" aria-hidden="true">+</span></a>
 <header class="hdr" id="top">
   <div class="wrap hdr-row">
     <button class="icon-btn burger" id="burger" aria-label="Open menu" aria-haspopup="dialog"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18"/></svg></button>
@@ -56,6 +55,7 @@ document.body.insertAdjacentHTML('afterbegin', `
     <a class="mega-promo" href="${shopLink('cat:hoodies')}" data-set="cat:hoodies"><img alt="" loading="lazy" src="${IMG('2ecf16_e3a03611ba7442c4a722e3aea235b3de~mv2.jpg', 700, 440)}"><span>New season fleece →</span></a>
   </div></div>
 </header>
+<div class="minibar" role="note" aria-label="Good to know"><span>Free UK delivery over £150</span><i aria-hidden="true"></i><span>No minimum on blanks</span><i aria-hidden="true"></i><span class="mb-3">Made in our own mills</span></div>
 <div class="scrim" id="scrim"></div>`);
 document.body.insertAdjacentHTML('beforeend', `
 <footer class="foot"><div class="wrap">
