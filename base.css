@@ -2,7 +2,7 @@
   /* Billy Buddha palette: ink, off-white, brick red */
   --ink:#0d0a09; --ink-2:#393937; --muted:#6b6966; --paper:#ffffff; --off:#f0f0ef; --sand:#e6e2da; --line:#dcd9d3;
   --brick:#893332; --brick-dk:#6e2827; --brick-lt:#f5e7e6; --ok:#1f6b45; --err:#b42318; --focus:#1a5cff;
-  --head:"Oswald","Arial Narrow",sans-serif; --serif:"Playfair Display",Georgia,serif; --body:Mulish,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --head:"Big Shoulders Display","Arial Narrow",sans-serif; --serif:"Instrument Serif",Georgia,serif; --body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --max:1360px; --r:4px; --r-lg:10px; --shadow:0 2px 6px rgba(13,10,9,.06),0 14px 40px rgba(13,10,9,.1);
   --ease:cubic-bezier(.2,.8,.2,1);
   color-scheme:light;

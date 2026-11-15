@@ -25,14 +25,13 @@ const main = $('main');
 document.body.insertAdjacentHTML('afterbegin', `
 <div class="progress" id="progress" aria-hidden="true"></div>
 <a class="skip" href="#main">Skip to main content</a>
+<a class="announce" href="shop.html?set=cat%3Ahoodies"><span><b>Just launched:</b> the Winter Drop<span class="ann-more">. Heavyweight fleece, made for the cold.</span></span> <span class="announce-plus" aria-hidden="true">+</span></a>
 <header class="hdr" id="top">
   <div class="wrap hdr-row">
     <button class="icon-btn burger" id="burger" aria-label="Open menu" aria-haspopup="dialog"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18"/></svg></button>
     <a class="logo has-img" href="index.html" id="logo" aria-label="Billy Buddha UK home"><img src="${LOGO(140)}" alt="" width="64" height="66"></a>
     <nav class="mainnav" aria-label="Main"><ul>
       <li><button class="navlink" aria-expanded="false" aria-controls="mega" id="megaBtn" ${page === 'shop' || page === 'product' ? 'aria-current="page"' : ''}>Shop <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></li>
-      ${QUICK.map(([k, l]) => `<li><a class="navlink" href="${shopLink('cat:' + k)}" data-set="cat:${k}" data-navcat="${k}">${l}</a></li>`).join('')}
-      <li class="navsep" aria-hidden="true"></li>
       ${NAV.map(([k, h, l]) => `<li><a class="navlink" href="${h}" ${page === k ? 'aria-current="page"' : ''}>${l}</a></li>`).join('')}
     </ul></nav>
     <div class="hdr-tools">
@@ -42,7 +41,7 @@ document.body.insertAdjacentHTML('afterbegin', `
     </div>
   </div>
   <nav class="catbar" aria-label="Shop by garment"><div class="catbar-in">
-    ${Object.entries(CATS).map(([k, v]) => `<a href="${shopLink('cat:' + k)}" data-set="cat:${k}" data-navcat="${k}">${v}</a>`).join('')}<a href="shop.html" data-set="clear">Shop all</a>
+    ${Object.entries(CATS).map(([k, v]) => `<a href="${shopLink('cat:' + k)}" data-set="cat:${k}" data-navcat="${k}">${v}</a>`).join('')}<a href="shop.html" data-set="clear">Shop all blanks</a><a class="cb-extra" href="billy.html#colours">Shop by colour</a><a class="cb-extra" href="index.html#resources">Resources</a>
   </div></nav>
   <div class="mega" id="mega"><div class="wrap mega-grid">
     <div><h4>Garments</h4><ul>${catLinks}</ul></div>
@@ -109,7 +108,7 @@ const tierFor = q => TIERS.find(t => q >= t.min && q <= t.max) || TIERS[0];
 $$('img[data-src]').forEach(i => { i.src = IMG(i.dataset.src, +i.dataset.w || 900, +i.dataset.h || 1100); });
 
 /* ---------------- INTRO (first visit per session) ---------------- */
-if (!reduced && !ses.get('bb-intro')) {
+if (false) { // intro screen retired for the clean look
   ses.set('bb-intro');
   document.body.insertAdjacentHTML('afterbegin', `<div class="intro" id="intro" aria-hidden="true"><div class="intro-in"><div class="intro-badge"><img src="${LOGO(260)}" alt=""></div><div class="intro-word"><span>Billy</span><span>Buddha</span><span>Since</span><span>1998</span></div></div></div>`);
   const intro = $('#intro');
@@ -177,9 +176,10 @@ function splitWords(el) {
 }
 if (!reduced) $$('[data-split]').forEach(splitWords);
 function countTo(el, end, start = 0, suffix = '') {
-  if (reduced) { el.textContent = end.toLocaleString('en-GB') + suffix; return; }
+  const fmt = n => end >= 10000 ? n.toLocaleString('en-GB') : String(n); // years like 1998 stay comma-free
+  if (reduced) { el.textContent = fmt(end) + suffix; return; }
   const t0 = performance.now(), dur = 1400;
-  const step = t => { const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3); el.textContent = Math.round(start + (end - start) * e).toLocaleString('en-GB') + suffix; if (k < 1) requestAnimationFrame(step); };
+  const step = t => { const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3); el.textContent = fmt(Math.round(start + (end - start) * e)) + suffix; if (k < 1) requestAnimationFrame(step); };
   requestAnimationFrame(step);
 }
 const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(en => {
@@ -190,7 +190,7 @@ const reveal = (root = document) => $$('.rv,.reveal-img,[data-split],.pal,[data-
 reveal();
 
 /* ---------------- MOTION: cursor, magnetic, parallax, tapes, pinned scroll, lit words ---------------- */
-if (fine && !reduced) {
+if (false) { // custom cursor and magnetic buttons retired
   const cur = $('#cursor'), label = $('.ring span', cur), ringEl = $('.ring', cur), dot = $('.dot', cur);
   let mx = -100, my = -100, rx = -100, ry = -100;
   addEventListener('pointermove', e => { mx = e.clientX; my = e.clientY; dot.style.transform = `translate(${mx}px,${my}px)`; }, { passive: true });
@@ -251,14 +251,14 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-quic
 function formHTML(hTag, titleId, isQuick) {
   return `<form class="pdp-body" novalidate>
     <div><span class="card-code" data-b="code"></span><${hTag} id="${titleId}" data-b="title"></${hTag}><p class="muted" data-b="desc" style="margin:0 0 .9rem"></p><div class="specs" data-b="specs"></div></div>
-    <fieldset><legend>Colour: <output data-b="colname"></output> <span class="muted" style="font-weight:500;font-size:.8rem">(photo shows <span data-b="shown"></span>)</span></legend><div class="sw-opts" data-b="cols"></div></fieldset>
+    <fieldset><legend>Colour: <output data-b="colname"></output> <span class="muted" style="font-weight:500;font-size:.8rem">(photo shows <span data-b="shown"></span>)</span></legend><div class="colsel-wrap"><span class="colsel-chip" data-b="colchip" aria-hidden="true"></span><select class="colsel" data-b="colsel" aria-label="Colour"></select></div><div class="sw-opts" data-b="cols"></div></fieldset>
     <fieldset><legend>Sizes and quantities</legend><table class="matrix"><caption class="sr-only">Enter a quantity for each size</caption><thead><tr><th scope="col">Size</th><th scope="col">Chest</th><th scope="col">Stock</th><th scope="col">Qty</th></tr></thead><tbody data-b="matrix"></tbody></table></fieldset>
     <fieldset><legend>Decoration</legend><div class="deco-opts" data-b="deco"></div></fieldset>
     <div><p style="font-weight:800;font-size:.9rem;margin:0 0 .5rem">Price per piece by quantity (ex VAT)</p><div class="tierbar" data-b="tiers"></div></div>
     <div class="sumbox"><div class="tot"><span><span data-b="qty">0</span> pieces · <span data-b="unit">£0.00</span>/pc</span><b data-b="total">£0.00</b></div><p class="nudge" data-b="nudge" aria-live="polite"></p><div class="eta">${SVG.truck}<span data-b="eta"></span></div></div>
     <button class="btn btn-brick btn-block" type="submit" data-b="add" disabled>Add to basket</button>
     ${isQuick ? '<a class="link" data-b="full" href="#" style="justify-self:start">See full details</a>' : ''}
-    <div><details><summary>Fabric and details</summary><p class="muted" data-b="detail"></p></details><details><summary>Size guide (inches)</summary><table><thead><tr><th scope="col">Size</th><th scope="col">Chest</th><th scope="col">Length</th></tr></thead><tbody data-b="sizetbl"></tbody></table></details><details><summary>Delivery and returns</summary><p class="muted">Blanks: dispatched in 3 to 5 working days, tracked UK delivery. Decorated: about 10 to 12 working days after proof. Free delivery over £150 ex VAT.</p></details></div>
+    <div><details><summary>Fabric and details</summary><p class="muted" data-b="detail"></p></details><details data-b="sizebox"><summary>Size guide (inches)</summary><table><thead><tr><th scope="col">Size</th><th scope="col">Chest</th><th scope="col">Length</th></tr></thead><tbody data-b="sizetbl"></tbody></table></details><details><summary>Delivery and returns</summary><p class="muted">Blanks: dispatched in 3 to 5 working days, tracked UK delivery. Decorated: about 10 to 12 working days after proof. Free delivery over £150 ex VAT.</p></details></div>
   </form>`;
 }
 const stockFor = (p, s) => ([...(p.id + s)].reduce((a, c) => a + c.charCodeAt(0), 0) % 10 < 2 ? ['low', 'Low stock'] : ['', 'In stock']);
@@ -275,6 +275,7 @@ function Buy(root, isQuick, onAdded) {
     if (q('thumbs')) q('thumbs').innerHTML = cur.img.map((im, i) => `<button type="button" data-g="${i}" aria-label="Show image ${i + 1} of ${cur.img.length}" ${i ? '' : 'aria-current="true"'}><img alt="" src="${IMG(im, 168, 210)}"></button>`).join('');
     q('cols').innerHTML = cur.cols.map(c => `<label title="${COL[c][0]}"><input type="radio" name="col" value="${c}" ${c === pc ? 'checked' : ''} aria-label="${COL[c][0]}"><span style="background:${COL[c][1]}"></span></label>`).join('');
     q('colname').textContent = COL[pc][0];
+    q('colsel').innerHTML = cur.cols.map(c => `<option value="${c}" ${c === pc ? 'selected' : ''}>${COL[c][0]}</option>`).join(''); q('colchip').style.background = COL[pc][1];
     const sizes = cur.cat === 'bottoms' ? SIZES.slice(1, 6) : SIZES;
     q('matrix').innerHTML = sizes.map(s => { const [cls, txt] = stockFor(cur, s); return `<tr><td>${s}</td><td>${CHEST[s]}″</td><td><span class="stock ${cls}">${txt}</span></td><td><div class="mini-qty"><button type="button" data-q="${s}" data-d="-1" aria-label="One fewer in ${s}">−</button><input type="number" min="0" max="5000" inputmode="numeric" value="${s === 'M' ? 1 : 0}" data-size="${s}" aria-label="Quantity in size ${s}"><button type="button" data-q="${s}" data-d="1" aria-label="One more in ${s}">+</button></div></td></tr>`; }).join('');
     q('sizetbl').innerHTML = sizes.map(s => `<tr><td>${s}</td><td>${CHEST[s]}</td><td>${LEN[s]}</td></tr>`).join('');
@@ -296,7 +297,10 @@ function Buy(root, isQuick, onAdded) {
     q('add').disabled = !s.qty; q('add').textContent = s.qty ? `Add ${s.qty} to basket · ${gbp(unit * s.qty)}` : 'Add to basket';
     root.dispatchEvent(new CustomEvent('buy:update', { detail: { qty: s.qty, total: unit * s.qty } }));
   }
-  form.addEventListener('input', e => { if (e.target.name === 'col') q('colname').textContent = COL[e.target.value][0]; upd(); });
+  form.addEventListener('input', e => {
+    if (e.target.name === 'col') { const c = e.target.value; q('colname').textContent = COL[c][0]; q('colsel').value = c; q('colchip').style.background = COL[c][1]; }
+    if (e.target === q('colsel')) { const c = e.target.value, r = $(`input[name="col"][value="${c}"]`, root); if (r) r.checked = true; q('colname').textContent = COL[c][0]; q('colchip').style.background = COL[c][1]; }
+    upd(); });
   form.addEventListener('change', upd);
   form.addEventListener('click', e => { const b = e.target.closest('[data-q]'); if (!b) return; const i = $(`[data-size="${b.dataset.q}"]`, root); i.value = Math.max(0, (parseInt(i.value) || 0) + +b.dataset.d); upd(); });
   if (q('thumbs')) q('thumbs').addEventListener('click', e => {
@@ -314,7 +318,7 @@ function Buy(root, isQuick, onAdded) {
     toast(`Added ${s.qty} × ${cur.name} in ${COL[s.col][0]}`, true);
     if (onAdded) onAdded();
   });
-  function setLine(l) { $$('[data-size]', root).forEach(i => i.value = l.sizes[i.dataset.size] || 0); $(`input[name="col"][value="${l.col}"]`, root).checked = true; $(`input[name="deco"][value="${l.deco}"]`, root).checked = true; q('colname').textContent = COL[l.col][0]; upd(); }
+  function setLine(l) { $$('[data-size]', root).forEach(i => i.value = l.sizes[i.dataset.size] || 0); $(`input[name="col"][value="${l.col}"]`, root).checked = true; $(`input[name="deco"][value="${l.deco}"]`, root).checked = true; q('colname').textContent = COL[l.col][0]; q('colsel').value = l.col; q('colchip').style.background = COL[l.col][1]; upd(); }
   return { load, setLine, upd, get cur() { return cur; } };
 }
 const qv = $('#qv'); let opener = null;
@@ -414,6 +418,8 @@ if ($('#cats')) $('#cats').innerHTML = Object.entries(CATS).map(([k, v], n) => {
 if ($('#marq')) { const w = ['Serious cotton', 'Silly name', 'Arms up', 'Combed cotton', 'Mercerised', 'Fleece', 'No bad days', 'Made in our mills']; $('#marq').innerHTML = [...w, ...w].map(x => `<span>${x}</span>`).join(''); }
 if ($('#palGrid')) $('#palGrid').innerHTML = ALL.map((c, n) => `<a class="pal" href="${shopLink('col:' + c)}" data-cursor="Shop" style="transition-delay:${n * 25}ms;text-decoration:none"><i style="background:${COL[c][1]}"></i>${COL[c][0]}<span class="sr-only">: show styles in this colour</span></a>`).join('');
 $$('[data-products]').forEach(el => { const ids = el.dataset.products.split(','); el.innerHTML = ids.map((id, n) => cardHTML(P.find(p => p.id === id), n)).join(''); });
+// content built by script above needs the scroll-reveal watcher too
+['#cats', '#palGrid'].forEach(sel => { const el = $(sel); if (el) reveal(el); });
 if ($('#tabs')) (() => {
   const tl = $('#tabs'), tp = $('#tabpanels'), media = $('#techMedia');
   tl.innerHTML = TECH.map((t, i) => `<button class="tab" type="button" role="tab" id="tab-${t.id}" aria-controls="tp-${t.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">${t.name}</button>`).join('');

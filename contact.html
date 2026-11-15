@@ -8,7 +8,7 @@
 <meta name="description" content="Start a merchandise project with Billy Buddha.">
 <link rel="icon" href="https://static.wixstatic.com/media/f58c1d_3ebb1aa8bbcb4773b0d79feac7aaf3a2~mv2.png/v1/fill/w_64,h_67,al_c,q_90,enc_auto/billy-buddha-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://static.wixstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,500;1,600&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="base.css"><link rel="stylesheet" href="billy.css"><link rel="stylesheet" href="identity.css">
 </head>
 <body data-page="contact">
@@ -53,6 +53,9 @@
 <script>
 (() => {
   const { $, validate, emailOk } = BB;
+  const REQ = { 'branded': ['Merchandise', 'We’d like our logo on '], 'private-label': ['Private label', 'We’re building our own range. '], 'samples': ['Merchandise', 'Please send samples of: '], 'colour-card': ['Merchandise', 'Please send us a physical colour card. '], 'spec-sheets': ['Merchandise', 'Please send spec sheets for: '], 'mill-tour': ['Merchandise', 'We’d love a mill tour (in person or on video). '] };
+  const r = REQ[new URLSearchParams(location.search).get('req')];
+  if (r) { const f = $('#enq'); const t = f.querySelector(`input[name="type"][value="${r[0]}"]`); if (t) t.checked = true; f.message.value = r[1]; }
   $('#enq').addEventListener('submit', e => {
     e.preventDefault(); const f = e.target;
     if (!validate(f, [[f.name, v => v.trim().length > 1, 'Enter your name'], [f.company, v => v.trim().length > 1, 'Enter your company'], [f.email, emailOk, 'Enter an email address like name@company.co.uk'], [f.message, v => v.trim().length > 4, 'Tell us a little about the project']])) return;

@@ -8,7 +8,7 @@
 <meta name="description" content="Mill-direct blank clothing with bulk pricing from 25 pieces, ex VAT.">
 <link rel="icon" href="https://static.wixstatic.com/media/f58c1d_3ebb1aa8bbcb4773b0d79feac7aaf3a2~mv2.png/v1/fill/w_64,h_67,al_c,q_90,enc_auto/billy-buddha-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://static.wixstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,500;1,600&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="base.css"><link rel="stylesheet" href="billy.css"><link rel="stylesheet" href="identity.css">
 </head>
 <body data-page="product">
@@ -60,6 +60,13 @@ const p = P.find(x => x.id === id) || P[0];
 $('#ppBody').innerHTML = formHTML('h1', 'ppTitle', false);
 const buy = Buy($('#pp'), false);
 buy.load(p.id);
+const FEAT = { tees:'Crew neck. Taped neck and shoulders. Side-seamed. Twin-needle hems. Tear-away label.', polos:'Classic collar. Two-button placket. Side vents. Twin-needle hems. Tear-away label.', tipped:'Contrast-tipped collar and cuffs. Two-button placket. Side vents. Tear-away label.', hoodies:'Lined hood. Ribbed cuffs and waistband. Brushed inside. Side-seamed.', jackets:'Full zip. Stand or ribbed collar. Zip pockets. Smooth face for embroidery.', bottoms:'Elasticated drawcord waist. Side pockets. Straight leg.' };
+$('#pp form').insertAdjacentHTML('afterend', `<section class="pp-details" aria-labelledby="pdH"><div class="pp-details-head"><h2 id="pdH">Product details</h2><a class="link" href="#sizes" id="sizeLink">Size chart</a></div>
+  <p>${p.desc}</p><p><b>Features:</b> ${FEAT[p.cat]}</p><p><b>Fabrication:</b> ${p.gsm} GSM ${p.fab.toLowerCase()}. Knitted, dyed and sewn in our own mills. Available blank or branded.</p></section>`);
+const sizeBox = $('#pp [data-b="sizebox"]'); sizeBox.id = 'sizes';
+const openSizes = () => { sizeBox.open = true; sizeBox.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' }); };
+$('#sizeLink').addEventListener('click', e => { e.preventDefault(); openSizes(); });
+if (location.hash === '#sizes') setTimeout(openSizes, 400);
 document.title = `${p.name} · Billy Buddha`;
 $('#crumbs').insertAdjacentHTML('beforeend', `<li><a href="shop.html?set=cat%3A${p.cat}">${CATS[p.cat]}</a></li><li aria-current="page">${p.name}</li>`);
 const best = p.price * TIERS[3].m;
