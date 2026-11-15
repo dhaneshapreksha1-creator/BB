@@ -1,0 +1,101 @@
+/* ===== Billy Buddha UK v3.1: identity first, quieter copy ===== */
+@media (min-width:960px){.foot-top{grid-template-columns:2fr repeat(3,1fr)}}
+.foot-base{align-items:center}
+
+/* blanks or branded */
+.bb-split{display:grid;gap:4px;background:var(--ink)}
+@media (min-width:800px){.bb-split{grid-template-columns:1fr 1fr}}
+.bb-panel{position:relative;display:block;min-height:clamp(420px,62vh,640px);overflow:hidden;color:#fff;text-decoration:none}
+.bb-panel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
+.bb-panel::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,10,9,.05) 30%,rgba(13,10,9,.82))}
+.bb-panel:hover img{transform:scale(1.05)}
+.bb-copy{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:clamp(1.5rem,4vw,3rem)}
+.bb-copy .kicker{color:#e7a8a6}
+.bb-copy h2{margin:0 0 .75rem;font-size:clamp(2.2rem,4.4vw,3.8rem)}
+.bb-copy p{max-width:26em;opacity:.88;margin:0 0 1.5rem}
+.bb-panel:hover .btn::before{transform:scaleX(1);transform-origin:left}
+.bb-panel:hover .btn{color:#fff;border-color:var(--brick)}
+.specs span.blank{background:var(--ink);color:#fff}
+.hero-copy .inner h1,.hero-copy .inner h2{margin-bottom:0}
+.hero-copy .ctas{margin-top:2.5rem}
+
+/* no rule before small labels */
+.kicker::before{display:none}
+.kicker{gap:0}
+
+/* trusted-by strip */
+.clients{border-bottom:1px solid var(--line);padding:2.25rem 0;overflow:hidden}
+.clients-row{display:flex;align-items:center;gap:2rem}
+.clients-label{flex:none;font-family:var(--head);font-size:.8rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);padding-left:var(--gut)}
+.clients-mask{overflow:hidden;flex:1;-webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.clients-track{display:flex;width:max-content;animation:marq 38s linear infinite}
+.clients-track span{font-family:var(--head);font-weight:600;font-size:clamp(1.5rem,2.6vw,2.2rem);letter-spacing:.14em;text-transform:uppercase;padding:0 2.75rem;white-space:nowrap;opacity:.8}
+@media (max-width:700px){.clients-row{flex-direction:column;align-items:flex-start;gap:1rem}.clients-mask{width:100%}}
+
+/* identity block */
+.mark{display:grid;gap:3rem;align-items:center}
+@media (min-width:900px){.mark{grid-template-columns:1fr 1fr;gap:6rem}}
+.mark h2{margin:0 0 1.5rem}
+
+/* work: client index with image reveal */
+.cindex{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.cindex li{border-bottom:1px solid var(--line)}
+.cindex .row{display:flex;justify-content:space-between;align-items:baseline;gap:2rem;padding:clamp(1.5rem,3vw,2.5rem) 0;transition:padding .45s var(--ease),color .3s}
+.cindex b{font-family:var(--head);font-weight:600;text-transform:uppercase;font-size:clamp(2.6rem,7vw,6.5rem);line-height:.9;letter-spacing:.01em}
+.cindex span{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:700;white-space:nowrap}
+.cindex li:hover .row{padding-left:1.5rem;color:var(--brick)}
+.peek{position:fixed;left:0;top:0;width:300px;aspect-ratio:4/5;pointer-events:none;z-index:60;overflow:hidden;opacity:0;transform:scale(.8);transition:opacity .3s,transform .4s var(--ease);box-shadow:var(--shadow)}
+.peek.on{opacity:1;transform:scale(1)}
+.peek img{width:100%;height:100%;object-fit:cover;object-position:top}
+@media (hover:none){.peek{display:none}}
+
+/* gallery */
+.gallery-grid{columns:2;column-gap:16px}
+@media (min-width:900px){.gallery-grid{columns:3;column-gap:24px}}
+.gallery-grid figure{margin:0 0 16px;break-inside:avoid}
+@media (min-width:900px){.gallery-grid figure{margin-bottom:24px}}
+.gallery-grid figure>div{overflow:hidden}
+.gallery-grid img{width:100%;height:auto;transition:transform 1.2s var(--ease)}
+.gallery-grid figure:hover img{transform:scale(1.04)}
+.gallery-grid figcaption{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--muted);margin-top:.6rem}
+
+/* contact */
+.contact{display:grid;gap:4rem}
+@media (min-width:960px){.contact{grid-template-columns:1fr 1.3fr;gap:7rem}}
+.contact dl{margin:2.5rem 0 0;display:grid;gap:1.75rem}
+.contact dt{font-family:var(--head);font-size:.8rem;letter-spacing:.22em;text-transform:uppercase;color:var(--brick);margin-bottom:.3rem}
+.contact dd{margin:0;font-size:1.1rem;font-weight:700}
+.contact dd a{text-underline-offset:4px}
+.form.clean{background:none;padding:0}
+.chipset{display:flex;flex-wrap:wrap;gap:.5rem;border:0;padding:0;margin:0}
+.chipset legend{font-weight:800;font-size:.88rem;margin-bottom:.6rem;padding:0}
+.chipset label{position:relative}
+.chipset input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.chipset span{display:inline-flex;align-items:center;min-height:44px;padding:0 1.1rem;border:1.5px solid var(--line);font-weight:700;font-size:.92rem;transition:all .2s}
+.chipset input:checked+span{background:var(--ink);border-color:var(--ink);color:#fff}
+.chipset input:focus-visible+span{outline:3px solid var(--focus);outline-offset:2px}
+
+/* lookbook captions */
+.step .cap{font-family:var(--head);font-size:1.6rem;text-transform:uppercase;letter-spacing:.06em}
+.step .cap small{font-family:var(--body);font-size:.8rem;letter-spacing:.18em;color:#e7a8a6;margin-right:.8rem}
+@media (prefers-reduced-motion:reduce){.clients-track{animation:none;flex-wrap:wrap}}
+
+/* ===== navigation UX ===== */
+.navsep{width:1px;height:22px;align-self:center;background:var(--line);margin:0 .4rem}
+.navlink{padding:0 .85rem}
+@media (min-width:1100px) and (max-width:1399px){.search input{width:190px}.search input:focus{width:240px}.navlink{padding:0 .7rem;font-size:.95rem}}
+/* phone and tablet: one-tap garment bar inside the sticky header */
+.catbar{border-top:1px solid var(--line);background:#fff}
+.catbar-in{display:flex;gap:.4rem;overflow-x:auto;padding:.6rem var(--gut);scrollbar-width:none;scroll-snap-type:x proximity}
+.catbar-in::-webkit-scrollbar{display:none}
+.catbar a{flex:none;scroll-snap-align:start;min-height:40px;display:inline-flex;align-items:center;padding:0 1rem;border:1.5px solid var(--line);border-radius:999px;text-decoration:none;font-family:var(--head);font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;transition:background .2s,color .2s,border-color .2s}
+.catbar a:hover{border-color:var(--ink)}
+.catbar a[aria-current="page"]{background:var(--ink);border-color:var(--ink);color:#fff}
+@media (min-width:1100px){.catbar{display:none}}
+body[data-page="shop"] .catbar{display:none}
+/* shop: garment pills stay in reach while browsing */
+.catpills{position:sticky;top:var(--hdrH,86px);z-index:30;background:#fff;padding:.85rem 0;margin-bottom:2rem;border-bottom:1px solid var(--line)}
+@media (min-width:1000px){.filters{top:calc(var(--hdrH,86px) + 90px)}}
+.mainnav{height:auto;align-self:stretch}
+.mainnav>ul{height:100%}
+.intro{cursor:pointer}

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact · Billy Buddha</title>
+<meta name="description" content="Start a merchandise project with Billy Buddha.">
+<link rel="icon" href="https://static.wixstatic.com/media/f58c1d_3ebb1aa8bbcb4773b0d79feac7aaf3a2~mv2.png/v1/fill/w_64,h_67,al_c,q_90,enc_auto/billy-buddha-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://static.wixstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,500;1,600&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/base.css"><link rel="stylesheet" href="assets/billy.css"><link rel="stylesheet" href="assets/identity.css">
+</head>
+<body data-page="contact">
+<main id="main">
+  <div class="wrap">
+    <section class="contact sec" aria-labelledby="pageH">
+      <div>
+        <ol class="crumbs"><li><a href="index.html">Home</a></li><li aria-current="page">Contact</li></ol>
+        <span class="kicker">Contact</span>
+        <h1 id="pageH" data-split>Start a <em class="serif">project.</em></h1>
+        <dl class="rv d1">
+          <div><dt>WhatsApp</dt><dd><a href="https://wa.me/919243717178">+91 92437 17178</a></dd></div>
+          <div><dt>Hours</dt><dd>Monday to Friday, 05:30 to 14:30 UK time</dd></div>
+          <div><dt>Mills</dt><dd>Tiruppur · Ludhiana</dd></div>
+        </dl>
+      </div>
+      <form class="form clean rv d1" id="enq" novalidate>
+        <fieldset class="chipset"><legend>What are you making?</legend>
+          <label><input type="radio" name="type" value="Merchandise" checked><span>Merchandise</span></label>
+          <label><input type="radio" name="type" value="Team uniform"><span>Team uniform</span></label>
+          <label><input type="radio" name="type" value="Event"><span>Event</span></label>
+          <label><input type="radio" name="type" value="Private label"><span>Private label</span></label>
+        </fieldset>
+        <div class="row">
+          <div class="field"><label for="fn">Name</label><input class="input" id="fn" name="name" autocomplete="name" required aria-describedby="fnE"><span class="err" id="fnE"></span></div>
+          <div class="field"><label for="fc">Company</label><input class="input" id="fc" name="company" autocomplete="organization" required aria-describedby="fcE"><span class="err" id="fcE"></span></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="fe">Work email</label><input class="input" id="fe" name="email" type="email" autocomplete="email" required aria-describedby="feE"><span class="err" id="feE"></span></div>
+          <div class="field"><label for="fq">Quantity</label><select class="input select" id="fq" name="qty"><option>Under 100</option><option selected>100 to 500</option><option>500 to 2,000</option><option>2,000+</option></select></div>
+        </div>
+        <div class="field"><label for="fm">Tell us about it</label><textarea class="input" id="fm" name="message" required aria-describedby="fmE"></textarea><span class="err" id="fmE"></span></div>
+        <label class="file"><input type="file" accept=".png,.jpg,.jpeg,.pdf,.ai,.eps,.svg"><b>Attach artwork</b> <span class="muted">Optional · PNG, PDF, AI or SVG</span></label>
+        <button class="btn btn-brick btn-block" type="submit">Send</button>
+        <div class="ok-msg" id="okMsg" role="status" tabindex="-1"></div>
+      </form>
+    </section>
+  </div>
+</main>
+<script src="assets/data.js"></script>
+<script src="assets/shell.js"></script>
+<script>
+(() => {
+  const { $, validate, emailOk } = BB;
+  $('#enq').addEventListener('submit', e => {
+    e.preventDefault(); const f = e.target;
+    if (!validate(f, [[f.name, v => v.trim().length > 1, 'Enter your name'], [f.company, v => v.trim().length > 1, 'Enter your company'], [f.email, emailOk, 'Enter an email address like name@company.co.uk'], [f.message, v => v.trim().length > 4, 'Tell us a little about the project']])) return;
+    const ok = $('#okMsg'); ok.textContent = `Thank you, ${f.name.value.trim().split(' ')[0]}. We’ll be in touch within one working day.`; ok.classList.add('show'); ok.focus(); f.reset();
+  });
+})();
+</script>
+</body>
+</html>

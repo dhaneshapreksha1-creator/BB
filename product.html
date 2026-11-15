@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product · Billy Buddha UK</title>
+<meta name="description" content="Mill-direct blank clothing with bulk pricing from 25 pieces, ex VAT.">
+<link rel="icon" href="https://static.wixstatic.com/media/f58c1d_3ebb1aa8bbcb4773b0d79feac7aaf3a2~mv2.png/v1/fill/w_64,h_67,al_c,q_90,enc_auto/billy-buddha-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://static.wixstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,500;1,600&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/base.css"><link rel="stylesheet" href="assets/billy.css"><link rel="stylesheet" href="assets/identity.css">
+</head>
+<body data-page="product">
+<main id="main">
+  <div class="wrap">
+    <ol class="crumbs" style="margin:2rem 0 0" id="crumbs"><li><a href="index.html">Home</a></li><li><a href="shop.html">Merchandise</a></li></ol>
+    <div class="pp" id="pp">
+      <div class="pp-gallery">
+        <div class="pp-main" data-b="gmain" data-cursor="Zoom"><img data-b="gimg" alt=""></div>
+        <div class="pp-thumbs" data-b="thumbs" role="group" aria-label="Product images"></div>
+      </div>
+      <div id="ppBody"></div>
+    </div>
+  </div>
+
+  <section class="sec" style="background:var(--off)" aria-labelledby="specH">
+    <div class="wrap">
+      <div class="sec-head"><div><span class="kicker rv">By the numbers</span><h2 id="specH" data-split>The <em class="serif">details</em></h2></div></div>
+      <div class="spec-grid rv" id="specs"></div>
+    </div>
+  </section>
+
+  <section class="split" aria-labelledby="decoH">
+    <div class="split-media reveal-img"><img alt="Close-up of a garment being stitched on an industrial sewing machine" data-src="2ecf16_9cc2f42c91084d249cf5c53910b40dc5f000.jpg" data-w="1100" data-h="1000" loading="lazy"></div>
+    <div class="split-copy">
+      <span class="kicker rv">Branding</span>
+      <h2 id="decoH" data-split>Your mark, <em class="serif">beautifully applied.</em></h2>
+      <p class="muted rv d1">Embroidery, screen print or DTF. Proof first, always.</p>
+      <div class="rv d2"><a class="btn" href="contact.html">Start a project</a></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="relH">
+    <div class="wrap">
+      <div class="sec-head"><div><span class="kicker rv">You may also like</span><h2 id="relH" data-split>More <em class="serif">styles</em></h2></div><a class="btn btn-outline rv d1" href="shop.html" id="relAll">See all</a></div>
+      <div class="grid four" id="related"></div>
+    </div>
+  </section>
+</main>
+<div class="pp-sticky" id="ppSticky" aria-hidden="true"><div><b id="stName"></b><div class="muted" style="font-size:.85rem" id="stPrice"></div></div><button class="btn btn-brick btn-sm" type="button" id="stGo" tabindex="-1">Choose sizes</button></div>
+
+<script src="assets/data.js"></script>
+<script src="assets/shell.js"></script>
+<script>
+(() => {
+const { $, gbp, cardHTML, reduced, Buy, formHTML, reveal } = BB;
+const id = new URLSearchParams(location.search).get('id');
+const p = P.find(x => x.id === id) || P[0];
+$('#ppBody').innerHTML = formHTML('h1', 'ppTitle', false);
+const buy = Buy($('#pp'), false);
+buy.load(p.id);
+document.title = `${p.name} · Billy Buddha`;
+$('#crumbs').insertAdjacentHTML('beforeend', `<li><a href="shop.html?set=cat%3A${p.cat}">${CATS[p.cat]}</a></li><li aria-current="page">${p.name}</li>`);
+const best = p.price * TIERS[3].m;
+$('#specs').innerHTML = [
+  [p.gsm, '', `GSM, ${p.fab.toLowerCase()} fabric weight`],
+  [p.cols.length, '', 'colours in stock'],
+  [Math.round((1 - TIERS[3].m) * 100), '%', 'off at 250 pieces or more'],
+  [null, gbp(best), 'per piece at 250+, ex VAT'],
+].map(([n, suf, lab]) => `<div><b ${n !== null ? `data-count="${n}" data-suffix="${suf}"` : ''}>${n !== null ? '0' + suf : suf}</b><span>${lab}</span></div>`).join('');
+const rel = P.filter(x => x.cat === p.cat && x.id !== p.id).concat(P.filter(x => x.cat !== p.cat)).slice(0, 4);
+$('#related').innerHTML = rel.map((x, n) => cardHTML(x, n)).join('');
+$('#relAll').href = `shop.html?set=cat%3A${p.cat}`;
+reveal($('#specs'));
+// sticky buy bar when the add button is off screen
+const add = $('#pp [data-b="add"]'), bar = $('#ppSticky');
+$('#stName').textContent = p.name;
+$('#pp').addEventListener('buy:update', e => { $('#stPrice').textContent = e.detail.qty ? `${e.detail.qty} pieces · ${gbp(e.detail.total)} ex VAT` : `From ${gbp(best)} per piece`; });
+buy.upd();
+new IntersectionObserver(([en]) => { const on = !en.isIntersecting; bar.classList.toggle('on', on); }, { threshold: 0 }).observe(add);
+$('#stGo').onclick = () => { $('#pp [data-b="matrix"]').scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' }); $('#pp [data-size]').focus({ preventScroll: true }); };
+})();
+</script>
+</body>
+</html>

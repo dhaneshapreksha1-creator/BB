@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Merchandise · Billy Buddha</title>
+<meta name="description" content="24 blank styles: tees, polos, tipped polos, hoodies, jackets and bottoms. Mill-direct, ex VAT, bulk pricing from 25 pieces.">
+<link rel="icon" href="https://static.wixstatic.com/media/f58c1d_3ebb1aa8bbcb4773b0d79feac7aaf3a2~mv2.png/v1/fill/w_64,h_67,al_c,q_90,enc_auto/billy-buddha-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://static.wixstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,500;1,600&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/base.css"><link rel="stylesheet" href="assets/billy.css"><link rel="stylesheet" href="assets/identity.css">
+</head>
+<body data-page="shop">
+<main id="main">
+  <section class="phero" aria-labelledby="shopH">
+    <div class="sun-bg" aria-hidden="true"></div>
+    <div class="wrap">
+      <ol class="crumbs"><li><a href="index.html">Home</a></li><li aria-current="page">Merchandise</li></ol>
+      <div class="phero-grid">
+        <div><span class="kicker">The collection</span><h1 id="shopH" data-split>Merchandise</h1></div>
+        <p class="lead rv d1">Tees, polos, fleece and outerwear. Every style sold blank, or branded with your logo.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:clamp(2.5rem,5vw,4rem)" aria-label="Products">
+    <div class="wrap">
+      <div class="catpills" id="pills" role="group" aria-label="Garment type"></div>
+      <div class="shop-layout">
+        <aside class="filters" id="filters" aria-label="Product filters"></aside>
+        <div>
+          <div class="toolbar">
+            <div class="left">
+              <button class="btn btn-outline filter-btn btn-sm" id="openFilters" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg> Filter <span id="fcount"></span></button>
+              <p id="count" aria-live="polite" style="margin:0;font-weight:800"></p>
+            </div>
+            <div><label class="sr-only" for="sort">Sort by</label>
+              <select id="sort" class="select"><option value="pop">Sort: Best sellers</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option><option value="gsm">Weight: heaviest first</option><option value="col">Most colours</option></select></div>
+          </div>
+          <div class="chips" id="chips"></div>
+          <div class="grid" id="grid"></div>
+          <div class="load-more" id="loadMore"></div>
+          <p class="concept">Concept build: prices and stock are placeholders. Prices per piece, ex VAT.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band" aria-labelledby="ctaH" style="background:var(--ink)">
+    <div class="wrap">
+      <h2 id="ctaH" data-split>Something <em class="serif">bespoke?</em></h2>
+      <div class="ctas rv d1" style="margin-top:2.5rem"><a class="btn btn-brick" href="contact.html">Start a project</a></div>
+    </div>
+  </section>
+</main>
+
+<dialog class="drawer fdrawer" id="fdrawer" aria-labelledby="fdH">
+  <div class="drawer-head"><h2 id="fdH">Filter</h2><button class="icon-btn" data-close aria-label="Close filters"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="filters" id="filtersM"></div>
+  <div class="drawer-foot"><button class="btn btn-block" data-close id="showRes" type="button">Show results</button></div>
+</dialog>
+
+<script src="assets/data.js"></script>
+<script src="assets/shell.js"></script>
+<script>
+(() => {
+const { $, $$, esc, cardHTML, reduced } = BB;
+const WEIGHT = { light:['Lightweight', g => g < 170], mid:['Midweight', g => g >= 170 && g <= 220], heavy:['Heavyweight', g => g > 220] };
+const state = { cat:new Set(), fab:new Set(), col:new Set(), weight:'any', sort:'pop', shown:12 };
+const X = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+function filterHTML(sfx) {
+  const cnt = fn => P.filter(fn).length;
+  return `
+  <div class="fgroup"><fieldset><legend>Garment</legend>${Object.entries(CATS).map(([k, v]) => `<label class="check"><input type="checkbox" data-f="cat" value="${k}"> ${v}<span class="n">${cnt(p => p.cat === k)}</span></label>`).join('')}</fieldset></div>
+  <div class="fgroup"><fieldset><legend>Fabric</legend>${FABRICS.map(f => `<label class="check"><input type="checkbox" data-f="fab" value="${f}"> ${f}<span class="n">${cnt(p => p.fab === f)}</span></label>`).join('')}</fieldset></div>
+  <div class="fgroup"><fieldset><legend>Fabric weight</legend><label class="check"><input type="radio" name="w${sfx}" data-f="weight" value="any" checked> Any weight</label>${Object.entries(WEIGHT).map(([k, [l, fn]]) => `<label class="check"><input type="radio" name="w${sfx}" data-f="weight" value="${k}"> ${l}<span class="n">${cnt(p => fn(p.gsm))}</span></label>`).join('')}</fieldset></div>
+  <div class="fgroup"><fieldset><legend>Colour</legend><div class="fswatches">${ALL.map(c => `<label class="fswatch" title="${COL[c][0]}"><input type="checkbox" data-f="col" value="${c}" aria-label="${COL[c][0]}"><span style="background:${COL[c][1]}"></span></label>`).join('')}</div></fieldset></div>
+  <div class="fgroup" style="border:0"><button type="button" class="link" data-clear>Clear all filters</button></div>`;
+}
+$('#filters').innerHTML = filterHTML('a');
+$('#filtersM').innerHTML = filterHTML('b');
+$('#pills').innerHTML = `<button type="button" data-pill="">All styles</button>` + Object.entries(CATS).map(([k, v]) => `<button type="button" data-pill="${k}">${v}</button>`).join('');
+function sync() {
+  $$('[data-f]').forEach(i => { const f = i.dataset.f; i.checked = f === 'weight' ? state.weight === i.value : state[f].has(i.value); });
+  $$('[data-pill]').forEach(b => b.setAttribute('aria-pressed', b.dataset.pill ? (state.cat.size === 1 && state.cat.has(b.dataset.pill)) : !state.cat.size));
+  BB.markNav(state.cat.size === 1 ? [...state.cat][0] : null);
+}
+function clearAll() { state.cat.clear(); state.fab.clear(); state.col.clear(); state.weight = 'any'; state.shown = 12; }
+function apply(set) {
+  clearAll(); const [k, v] = set.split(':');
+  if (k === 'cat' || k === 'fab' || k === 'col') state[k].add(v); else if (k === 'weight') state.weight = v;
+  sync(); render(); history.replaceState(null, '', set === 'clear' ? 'shop.html' : 'shop.html?set=' + encodeURIComponent(set));
+}
+BB.onSet = set => { apply(set); $('#pills').scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' }); };
+BB.prefCol = () => state.col.size ? [...state.col][0] : null;
+document.addEventListener('change', e => {
+  const i = e.target.closest('[data-f]'); if (!i) return; const f = i.dataset.f;
+  if (f === 'weight') state.weight = i.value; else i.checked ? state[f].add(i.value) : state[f].delete(i.value);
+  state.shown = 12; sync(); render();
+});
+document.addEventListener('click', e => {
+  if (e.target.closest('[data-clear]')) { clearAll(); sync(); render(); return; }
+  const p = e.target.closest('[data-pill]'); if (p) { state.cat.clear(); if (p.dataset.pill) state.cat.add(p.dataset.pill); state.shown = 12; sync(); render(); history.replaceState(null, '', p.dataset.pill ? 'shop.html?set=' + encodeURIComponent('cat:' + p.dataset.pill) : 'shop.html'); }
+});
+$('#sort').onchange = e => { state.sort = e.target.value; render(); };
+$('#openFilters').onclick = () => $('#fdrawer').showModal();
+function filtered() {
+  const l = P.filter(p => (!state.cat.size || state.cat.has(p.cat)) && (!state.fab.size || state.fab.has(p.fab)) && (state.weight === 'any' || WEIGHT[state.weight][1](p.gsm)) && (!state.col.size || p.cols.some(c => state.col.has(c))));
+  return l.sort({ pop:(a,b)=>a.pop-b.pop, low:(a,b)=>a.price-b.price, high:(a,b)=>b.price-a.price, gsm:(a,b)=>b.gsm-a.gsm, col:(a,b)=>b.cols.length-a.cols.length }[state.sort]);
+}
+function render() {
+  const l = filtered(), vis = l.slice(0, state.shown), nF = state.cat.size + state.fab.size + state.col.size + (state.weight !== 'any');
+  $('#count').textContent = `${l.length} style${l.length === 1 ? '' : 's'}`;
+  $('#fcount').textContent = nF ? `(${nF})` : '';
+  $('#showRes').textContent = `Show ${l.length} result${l.length === 1 ? '' : 's'}`;
+  const chips = [...[...state.cat].map(v => ['cat', v, CATS[v]]), ...[...state.fab].map(v => ['fab', v, v]), ...(state.weight !== 'any' ? [['weight', state.weight, WEIGHT[state.weight][0]]] : []), ...[...state.col].map(v => ['col', v, COL[v][0]])];
+  $('#chips').innerHTML = chips.map(([k, v, lab]) => `<button class="chip" type="button" data-chip="${k}:${v}" aria-label="Remove filter: ${esc(lab)}">${esc(lab)} ${X}</button>`).join('') + (chips.length > 1 ? '<button class="link" type="button" data-clear style="font-size:.85rem">Clear all</button>' : '');
+  const pref = state.col.size ? [...state.col] : null;
+  $('#grid').innerHTML = vis.length ? vis.map((p, n) => cardHTML(p, n, pref)).join('') : `<div class="empty"><img src="${LOGO(200)}" alt="" width="90" style="margin:0 auto 1rem;mix-blend-mode:multiply"><p><b>No styles match.</b> Try fewer filters.</p><button class="btn btn-outline" data-clear type="button">Clear filters</button></div>`;
+  $('#loadMore').innerHTML = l.length > state.shown
+    ? `<span class="muted" style="font-size:.88rem">Showing ${vis.length} of ${l.length}</span><div class="bar"><i style="width:${vis.length / l.length * 100}%"></i></div><button class="btn btn-outline" type="button" id="more">Load more styles</button>`
+    : (l.length ? `<span class="muted" style="font-size:.88rem">Showing all ${l.length} styles</span>` : '');
+  const m = $('#more'); if (m) m.onclick = () => { const first = state.shown; state.shown += 12; render(); $$('#grid .card-media')[first]?.focus(); };
+}
+$('#chips').addEventListener('click', e => { const c = e.target.closest('[data-chip]'); if (!c) return; const [k, v] = c.dataset.chip.split(':'); if (k === 'weight') state.weight = 'any'; else state[k].delete(v); sync(); render(); });
+const init = new URLSearchParams(location.search).get('set');
+if (init) { const [k, v] = init.split(':'); if (k === 'cat' || k === 'fab' || k === 'col') state[k].add(v); else if (k === 'weight') state.weight = v; }
+sync(); render();
+})();
+</script>
+</body>
+</html>

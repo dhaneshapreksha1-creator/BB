@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Work · Billy Buddha</title>
+<meta name="description" content="Selected clients and merchandise by Billy Buddha.">
+<link rel="icon" href="https://static.wixstatic.com/media/f58c1d_3ebb1aa8bbcb4773b0d79feac7aaf3a2~mv2.png/v1/fill/w_64,h_67,al_c,q_90,enc_auto/billy-buddha-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://static.wixstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,500;1,600&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/base.css"><link rel="stylesheet" href="assets/billy.css"><link rel="stylesheet" href="assets/identity.css">
+</head>
+<body data-page="work">
+<main id="main">
+  <section class="phero dark" aria-labelledby="pageH">
+    <div class="sun-bg" aria-hidden="true"></div>
+    <div class="wrap">
+      <ol class="crumbs"><li><a href="index.html">Home</a></li><li aria-current="page">Work</li></ol>
+      <span class="kicker">Selected clients</span>
+      <h1 id="pageH" data-split>Worn by teams who <em class="serif">notice the details.</em></h1>
+    </div>
+  </section>
+
+  <section class="sec" aria-label="Clients">
+    <div class="wrap">
+      <ul class="cindex" id="cindex"></ul>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="galH" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head"><div><span class="kicker rv">Lookbook</span><h2 id="galH" data-split>In the <em class="serif">wild</em></h2></div></div>
+      <div class="gallery-grid" id="gallery"></div>
+    </div>
+  </section>
+
+  <section class="cta-band" aria-labelledby="ctaH" style="background:var(--brick)">
+    <div class="wrap">
+      <h2 id="ctaH" data-split>Your team, <em class="serif">next.</em></h2>
+      <div class="ctas rv d1" style="margin-top:2.5rem"><a class="btn btn-light" href="contact.html">Start a project</a></div>
+    </div>
+  </section>
+</main>
+<div class="peek" id="peek" aria-hidden="true"><img alt=""></div>
+<script src="assets/data.js"></script>
+<script src="assets/shell.js"></script>
+<script>
+(() => {
+  const { $, $$, reduced, reveal } = BB;
+  const C = [
+    ['Jaguar Land Rover', 'Automotive', 'f58c1d_7df95a619bf94291842ef369f09e2fc7~mv2.jpg'],
+    ['Citroën', 'Automotive', 'f58c1d_90a213e7304e44188506254a8777f5b6~mv2.jpg'],
+    ['IBM', 'Technology', 'f58c1d_1d1ff50df8d24eb8b770cfe6feb8bb4b~mv2.jpg'],
+    ['Hyundai', 'Automotive', '2ecf16_e3a03611ba7442c4a722e3aea235b3de~mv2.jpg'],
+    ['Murugappa', 'Industry', 'f58c1d_bdbac44f78ea421097be0ecffb164639~mv2.jpg'],
+  ];
+  $('#cindex').innerHTML = C.map(([n, s, im], i) => `<li class="rv" data-img="${im}"><div class="row"><b>${n}</b><span>${s}</span></div></li>`).join('');
+  const G = [['2ecf16_8fa9d046c41641559db4bde9de4e4e0cf000.jpg', 'Oversized heavy tee', 900, 1200], ['f58c1d_8d7733625476440897f4bf7fe911722c~mv2.jpg', 'Polo colourways', 900, 700], ['2ecf16_06b63127461746c58089e83a2e3b2317~mv2.jpg', 'Track jacket', 900, 1150], ['f58c1d_1006a6fe3a75431cb728d11a504df47d~mv2.jpg', 'Classic crew', 900, 1100], ['2ecf16_d7c68cb120fc4b649d1f1150370f0c20~mv2.jpg', 'Zip hoodie', 900, 1200], ['f58c1d_90a213e7304e44188506254a8777f5b6~mv2.jpg', 'Tipped polo', 900, 1000], ['2ecf16_6bc1655506a84ecdbe584ce28d71a850~mv2.jpg', 'Bomber', 900, 1150], ['f58c1d_d82630e97fec4f63b3a004425e4eba00~mv2.jpg', 'BioWash tee', 900, 1100], ['2ecf16_9cc2f42c91084d249cf5c53910b40dc5f000.jpg', 'The mill', 900, 900]];
+  $('#gallery').innerHTML = G.map(([id, cap, w, h], i) => `<figure class="rv d${i % 3}"><div class="reveal-img"><img alt="${cap}" loading="lazy" src="${IMG(id, w, h)}" width="${w}" height="${h}"></div><figcaption>${cap}</figcaption></figure>`).join('');
+  reveal($('#cindex')); reveal($('#gallery'));
+  // image follows the cursor over each client name
+  const peek = $('#peek'), pim = $('img', peek); let x = 0, y = 0, px = 0, py = 0, on = false;
+  if (!reduced) {
+    $$('#cindex li').forEach(li => {
+      li.addEventListener('pointerenter', () => { pim.src = IMG(li.dataset.img, 600, 750); peek.classList.add('on'); on = true; });
+      li.addEventListener('pointerleave', () => { peek.classList.remove('on'); on = false; });
+    });
+    addEventListener('pointermove', e => { x = e.clientX; y = e.clientY; }, { passive: true });
+    (function loop() { px += (x - px) * .12; py += (y - py) * .12; peek.style.translate = `${px + 30}px ${py - 180}px`; peek.style.rotate = `${Math.max(-8, Math.min(8, (x - px) * .05))}deg`; requestAnimationFrame(loop); })();
+  }
+})();
+</script>
+</body>
+</html>
